@@ -1,0 +1,1 @@
+- [Gemini integration workaround](gemini-integration.md) — import @google/genai directly in api-server, NOT via @workspace/integrations-gemini-ai (image sub-module throws at startup)

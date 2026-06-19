@@ -1,0 +1,12 @@
+[
+  {"id": 1, "question": "What is artificial intelligence?", "answer": "Artificial Intelligence (AI) is the simulation of human intelligence processes by computer systems. It includes learning, reasoning, problem-solving, perception, and language understanding."},
+  {"id": 2, "question": "What is a chatbot?", "answer": "A chatbot is a software application designed to simulate human conversation. It can be rule-based or powered by AI/NLP to understand and respond to natural language."},
+  {"id": 3, "question": "What is machine learning?", "answer": "Machine Learning is a subset of AI where systems learn from data without being explicitly programmed. Algorithms identify patterns and improve their performance through experience."},
+  {"id": 4, "question": "What is natural language processing?", "answer": "Natural Language Processing (NLP) is a branch of AI that enables computers to understand, interpret, and generate human language. It powers chatbots, translation, sentiment analysis, and more."},
+  {"id": 5, "question": "What is TF-IDF?", "answer": "TF-IDF (Term Frequency-Inverse Document Frequency) is a numerical statistic used in NLP to reflect how important a word is to a document relative to a collection. It's used for text similarity and search."},
+  {"id": 6, "question": "What is cosine similarity?", "answer": "Cosine similarity measures the angle between two vectors in a multi-dimensional space. In NLP, it compares text documents by treating them as vectors, where a score of 1 means identical and 0 means completely different."},
+  {"id": 7, "question": "What is Gemini AI?", "answer": "Gemini is Google's most capable AI model family, designed for multimodal understanding (text, code, images, audio, video). It powers this chatbot's AI responses."},
+  {"id": 8, "question": "What is tokenization in NLP?", "answer": "Tokenization is the process of breaking text into smaller units called tokens (words, subwords, or characters). It's the first step in most NLP pipelines."},
+  {"id": 9, "question": "What is Java?", "answer": "Java is a high-level, class-based, object-oriented programming language designed to be platform-independent. It follows 'write once, run anywhere' (WORA) using the Java Virtual Machine (JVM)."},
+  {"id": 10, "question": "What is CodeAlpha?", "answer": "CodeAlpha is a technology company that offers virtual internship programs for students and fresh graduates in areas like programming, AI, web development, and data science."}
+]
