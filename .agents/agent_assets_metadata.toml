@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "uGYPrOpMtQGRK4H0bOWAm"
+uri = "file://ai-assistant-chat.tar.gz"
+type = "unspecified"
+title = "AI Assistant Chat — Project Source Code"
