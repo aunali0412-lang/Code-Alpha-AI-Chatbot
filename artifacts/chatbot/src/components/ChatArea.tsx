@@ -2,8 +2,10 @@ import { useEffect, useRef, useCallback } from "react";
 import { MessageBubble, TypingIndicator } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
 import type { LocalMessage } from "@/hooks/useChat";
-import { Bot, Sparkles, Zap, BookOpen, Code2, FileDown } from "lucide-react";
+import { Bot, Sparkles, Zap, BookOpen, Code2, FileDown, FolderDown } from "lucide-react";
 import jsPDF from "jspdf";
+
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const SUGGESTIONS = [
   { icon: Sparkles, text: "What is artificial intelligence?" },
@@ -271,9 +273,19 @@ function Welcome({ onSuggest }: { onSuggest: (text: string) => void }) {
       <p className="text-muted-foreground text-sm mb-1 max-w-sm">
         Powered by Gemini AI with NLP-based FAQ matching using TF-IDF cosine similarity.
       </p>
-      <p className="text-xs text-muted-foreground/60 mb-8">
+      <p className="text-xs text-muted-foreground/60 mb-4">
         Built for CodeAlpha Internship
       </p>
+
+      {/* Download project button */}
+      <a
+        href={`${BASE}/api/download/project`}
+        download="ai-assistant-chat.tar.gz"
+        className="flex items-center gap-2 mb-8 px-4 py-2 rounded-lg border border-primary/40 bg-primary/10 hover:bg-primary/20 text-primary text-sm font-medium transition-all"
+      >
+        <FolderDown size={16} />
+        Download Project Source Code
+      </a>
 
       <div className="flex flex-wrap items-center justify-center gap-2 mb-8 text-xs">
         <span className="px-2.5 py-1 rounded-full bg-accent text-accent-foreground border border-border">TF-IDF Matching</span>
