@@ -76,7 +76,7 @@ export function Sidebar({
         </div>
         {!collapsed && (
           <div>
-            <div className="text-sm font-semibold leading-tight">CodeAlpha AI</div>
+            <div className="text-sm font-semibold leading-tight">AI Chatbot</div>
             <div className="text-xs text-muted-foreground leading-tight">Gemini + NLP</div>
           </div>
         )}

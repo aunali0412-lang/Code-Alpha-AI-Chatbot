@@ -267,7 +267,7 @@ function Welcome({ onSuggest }: { onSuggest: (text: string) => void }) {
       <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-5">
         <Bot size={32} className="text-primary" />
       </div>
-      <h1 className="text-2xl font-semibold mb-2">CodeAlpha AI Chatbot</h1>
+      <h1 className="text-2xl font-semibold mb-2">AI Chatbot</h1>
       <p className="text-muted-foreground text-sm mb-1 max-w-sm">
         Powered by Gemini AI with NLP-based FAQ matching using TF-IDF cosine similarity.
       </p>
