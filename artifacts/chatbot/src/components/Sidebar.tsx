@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { cn, formatDate } from "@/lib/utils";
 import type { GeminiConversation } from "@workspace/api-client-react";
 import {
   Plus, Trash2, MessageSquare, ChevronLeft, ChevronRight,
-  Bot, Moon, Sun, User
+  Bot, Moon, Sun, User, Search, X
 } from "lucide-react";
 
 interface SidebarProps {
@@ -17,16 +17,38 @@ interface SidebarProps {
   isLoading: boolean;
 }
 
+function highlight(text: string, query: string) {
+  if (!query.trim()) return <span>{text}</span>;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return <span>{text}</span>;
+  return (
+    <span>
+      {text.slice(0, idx)}
+      <mark className="bg-primary/30 text-foreground rounded-sm px-0.5">
+        {text.slice(idx, idx + query.length)}
+      </mark>
+      {text.slice(idx + query.length)}
+    </span>
+  );
+}
+
 export function Sidebar({
   conversations, activeConvId, onSelect, onNew, onDelete,
   theme, onToggleTheme, isLoading,
 }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered]   = useState<number | null>(null);
+  const [query, setQuery]       = useState("");
 
-  // Group conversations by date
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return conversations;
+    return conversations.filter((c) => c.title.toLowerCase().includes(q));
+  }, [conversations, query]);
+
+  // Group by date
   const groups: Record<string, GeminiConversation[]> = {};
-  for (const c of conversations) {
+  for (const c of filtered) {
     const label = formatDate(c.createdAt);
     if (!groups[label]) groups[label] = [];
     groups[label]!.push(c);
@@ -39,7 +61,7 @@ export function Sidebar({
         collapsed ? "w-14" : "w-64",
       )}
     >
-      {/* Toggle collapse button */}
+      {/* Collapse toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
         className="absolute -right-3 top-5 z-10 w-6 h-6 rounded-full bg-card border border-border flex items-center justify-center shadow-sm hover:bg-accent transition-colors"
@@ -60,8 +82,8 @@ export function Sidebar({
         )}
       </div>
 
-      {/* New Chat Button */}
-      <div className={cn("p-3", collapsed && "px-2")}>
+      {/* New Chat */}
+      <div className={cn("p-3 pb-2", collapsed && "px-2")}>
         <button
           onClick={onNew}
           disabled={isLoading}
@@ -77,13 +99,58 @@ export function Sidebar({
         </button>
       </div>
 
+      {/* Search bar */}
+      {!collapsed && (
+        <div className="px-3 pb-2">
+          <div className="relative">
+            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search chats…"
+              className={cn(
+                "w-full rounded-md border border-border bg-secondary/50 text-xs",
+                "pl-7 pr-7 py-2 placeholder:text-muted-foreground/60",
+                "focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50",
+                "transition-colors",
+              )}
+            />
+            {query && (
+              <button
+                onClick={() => setQuery("")}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X size={12} />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Conversations list */}
       <div className="flex-1 overflow-y-auto px-2 pb-2">
-        {!collapsed && conversations.length === 0 && (
+        {!collapsed && filtered.length === 0 && (
           <div className="text-center text-muted-foreground text-xs py-8 px-3">
-            <MessageSquare size={24} className="mx-auto mb-2 opacity-40" />
-            No conversations yet
+            {query ? (
+              <>
+                <Search size={22} className="mx-auto mb-2 opacity-40" />
+                No chats match<br />
+                <span className="font-medium text-foreground/70">"{query}"</span>
+              </>
+            ) : (
+              <>
+                <MessageSquare size={24} className="mx-auto mb-2 opacity-40" />
+                No conversations yet
+              </>
+            )}
           </div>
+        )}
+
+        {!collapsed && query && filtered.length > 0 && (
+          <p className="text-xs text-muted-foreground px-2 py-1">
+            {filtered.length} result{filtered.length !== 1 ? "s" : ""}
+          </p>
         )}
 
         {Object.entries(groups).map(([label, convs]) => (
@@ -112,7 +179,9 @@ export function Sidebar({
                 >
                   <MessageSquare size={14} className="flex-shrink-0 opacity-60" />
                   {!collapsed && (
-                    <span className="truncate flex-1 text-xs">{conv.title}</span>
+                    <span className="truncate flex-1 text-xs">
+                      {highlight(conv.title, query)}
+                    </span>
                   )}
                 </button>
                 {!collapsed && hovered === conv.id && (
